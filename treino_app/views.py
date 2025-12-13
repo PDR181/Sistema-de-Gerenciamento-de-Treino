@@ -3,11 +3,11 @@ from django.contrib.auth.decorators import login_required
 from .models import FichaTreino
 from .forms import FichaTreinoForm
 
+@login_required
 def fichas_list(request):
-    if request.user.is_authenticated:
-        fichas = FichaTreino.objects.filter(usuario=request.user).prefetch_related('itens__exercicio')
-    else:
-        fichas = []
+    fichas = FichaTreino.objects.filter(
+        usuario=request.user
+    ).prefetch_related('itens__exercicio')
     return render(request, 'treino/fichas_list.html', {'fichas': fichas})
 
 @login_required
