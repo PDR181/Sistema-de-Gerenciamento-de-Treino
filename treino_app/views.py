@@ -13,6 +13,22 @@ def fichas_list(request):
 
 
 @login_required
+def ficha_detalhe(request, ficha_id):
+    ficha = get_object_or_404(
+        FichaTreino,
+        id=ficha_id,
+        usuario=request.user
+    )
+    itens = ItemFicha.objects.filter(ficha=ficha).select_related('exercicio')
+
+    context = {
+        'ficha': ficha,
+        'itens': itens,
+    }
+    return render(request, 'treino/ficha_detalhe.html', context)
+
+
+@login_required
 def criar_ficha(request):
     if request.method == 'POST':
         form = FichaTreinoForm(request.POST)
@@ -36,6 +52,7 @@ def adicionar_item_ficha(request, ficha_id):
             item = form.save(commit=False)
             item.ficha = ficha
             item.save()
+            # depois podemos trocar para redirect('ficha_detalhe', ficha_id=ficha.id)
             return redirect('fichas_list')
     else:
         form = ItemFichaForm()
@@ -59,6 +76,7 @@ def editar_item_ficha(request, item_id):
         form = ItemFichaForm(request.POST, instance=item)
         if form.is_valid():
             form.save()
+            # idem: pode redirecionar para os detalhes da ficha
             return redirect('fichas_list')
     else:
         form = ItemFichaForm(instance=item)
@@ -78,11 +96,12 @@ def excluir_item_ficha(request, item_id):
         ficha__usuario=request.user
     )
     if request.method == 'POST':
+        ficha_id = item.ficha.id
         item.delete()
+        # pode usar redirect('ficha_detalhe', ficha_id=ficha_id) depois
         return redirect('fichas_list')
 
     return render(request, 'treino/excluir_item_ficha.html', {
         'item': item,
         'ficha': item.ficha,
     })
-

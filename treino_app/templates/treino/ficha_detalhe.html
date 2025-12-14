@@ -2,7 +2,8 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <title>Minhas fichas de treino</title>
+    <title>Ficha: {{ ficha.nome }}</title>
+
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -38,58 +39,61 @@
             font-size: 24px;
             cursor: pointer;
         }
-
-        ul {
-            list-style: none;
-            padding-left: 0;
-        }
-
-        li {
-            margin-bottom: 8px;
-        }
     </style>
 </head>
 <body>
 
-<h1>Minhas fichas de treino</h1>
+<h1>Ficha: {{ ficha.nome }}</h1>
+<p>{{ ficha.descricao }}</p>
 
 <p>
-    <a href="{% url 'criar_ficha' %}">+ Criar nova ficha</a>
+    <a href="{% url 'fichas_list' %}">&larr; Voltar para minhas fichas</a>
 </p>
 
-{% for ficha in fichas %}
-  <h2>
-    <a href="{% url 'ficha_detalhe' ficha_id=ficha.id %}">
-      {{ ficha.nome }}
-    </a>
-  </h2>
-
-  <p>
+<p>
     <a href="{% url 'adicionar_item_ficha' ficha.id %}">
-      + Adicionar exercício nesta ficha
+        + Adicionar exercício nesta ficha
     </a>
-  </p>
+</p>
 
-  <ul>
-    {% for item in ficha.itens.all %}
-      <li>
-        {% if item.exercicio.gif_url %}
-          <a href="#"
-             onclick="openGifModal('{{ item.exercicio.gif_url }}', '{{ item.exercicio.nome }}'); return false;">
-            {{ item.exercicio.nome }}
-          </a>
-        {% else %}
-          {{ item.exercicio.nome }}
-        {% endif %}
-        - {{ item.series }} x {{ item.repeticoes }} reps - {{ item.peso }} kg
-        <a href="{% url 'editar_item_ficha' item.id %}">Editar</a>
-        <a href="{% url 'excluir_item_ficha' item.id %}">Excluir</a>
-      </li>
-    {% endfor %}
-  </ul>
-{% empty %}
-  <p>Nenhuma ficha cadastrada.</p>
-{% endfor %}
+<table border="1" cellpadding="6" cellspacing="0">
+    <thead>
+        <tr>
+            <th>Exercício</th>
+            <th>Séries</th>
+            <th>Repetições</th>
+            <th>Peso (kg)</th>
+            <th>Ações</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in itens %}
+        <tr>
+            <td>
+                {% if item.exercicio.gif_url %}
+                    <a href="#"
+                       onclick="openGifModal('{{ item.exercicio.gif_url }}', '{{ item.exercicio.nome }}'); return false;">
+                        {{ item.exercicio.nome }}
+                    </a>
+                {% else %}
+                    {{ item.exercicio.nome }}
+                {% endif %}
+            </td>
+            <td>{{ item.series }}</td>
+            <td>{{ item.repeticoes }}</td>
+            <td>{{ item.peso }}</td>
+            <td>
+                <a href="{% url 'editar_item_ficha' item.id %}">Editar</a>
+                <a href="{% url 'excluir_item_ficha' item.id %}">Excluir</a>
+            </td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="5">Nenhum exercício cadastrado nesta ficha.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
 
 <!-- Modal do GIF -->
 <div id="gif-modal" class="gif-modal">
