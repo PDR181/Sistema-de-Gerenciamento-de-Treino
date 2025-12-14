@@ -1,11 +1,9 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <title>Login - MoveFit</title>
-</head>
-<body>
-  <h1>Login</h1>
+{% extends "base.html" %}
+
+{% block title %}Login - MoveFit{% endblock %}
+
+{% block content %}
+  <h2>Login</h2>
 
   {% if form.errors %}
     <p style="color: red;">Usuário ou senha inválidos.</p>
@@ -21,8 +19,10 @@
       <label for="id_password">Senha:</label>
       {{ form.password }}
     </p>
-    <button type="submit">Entrar</button>
+
     <input type="hidden" name="next" value="{% url 'fichas_list' %}">
+    <button type="submit">Entrar</button>
   </form>
-</body>
-</html>
+
+  <p>Não tem conta? <a href="{% url 'signup' %}">Cadastre-se</a></p>
+{% endblock %}
