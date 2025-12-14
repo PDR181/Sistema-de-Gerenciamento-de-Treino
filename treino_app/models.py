@@ -27,3 +27,18 @@ class ItemFicha(models.Model):
 
     def __str__(self):
         return f"{self.exercicio.nome} - {self.series}x{self.repeticoes} @ {self.peso}kg"
+
+
+from django.db import models
+from django.contrib.auth.models import User
+
+
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="profile")
+    nome_completo = models.CharField(max_length=150, null=True, blank=True)
+    idade = models.PositiveIntegerField(null=True, blank=True)
+    peso_kg = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+    altura_cm = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+
+    def __str__(self):
+        return f"Perfil de {self.user.username}"

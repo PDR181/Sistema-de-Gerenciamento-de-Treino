@@ -11,17 +11,20 @@
 <header>
     <h1>MoveFit</h1>
     {% if user.is_authenticated and request.resolver_match.url_name != 'login' %}
-      <p>
-        Usuário: {{ user.username }}
-        |
-        <form method="post" action="{% url 'logout' %}" style="display:inline;">
-          {% csrf_token %}
-          <button type="submit" style="background:none;border:none;color:blue;cursor:pointer;padding:0;">
-            Sair
-          </button>
-        </form>
-      </p>
-    {% endif %}
+  <p>
+    Usuário: {{ user.username }}
+    |
+    <a href="{% url 'perfil' %}">Perfil</a>
+    |
+    <form method="post" action="{% url 'logout' %}" style="display:inline;">
+      {% csrf_token %}
+      <button type="submit" style="background:none;border:none;color:blue;cursor:pointer;padding:0;">
+        Sair
+      </button>
+    </form>
+  </p>
+{% endif %}
+
     <hr>
 </header>
 

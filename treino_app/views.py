@@ -1,8 +1,14 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, get_user_model
-from .models import FichaTreino, ItemFicha
-from .forms import FichaTreinoForm, ItemFichaForm, SignUpForm
+from .models import FichaTreino, ItemFicha, Profile
+from .forms import (
+    FichaTreinoForm,
+    ItemFichaForm,
+    SignUpForm,
+    EditProfileForm,
+    EditProfileExtraForm,
+)
 from django.contrib import messages
 
 
@@ -21,6 +27,33 @@ def signup_view(request):
         form = SignUpForm()
 
     return render(request, "treino/signup.html", {"form": form})
+
+
+@login_required
+def perfil_usuario(request):
+    return render(request, "treino/perfil.html")
+
+
+@login_required
+def editar_perfil(request):
+    profile, created = Profile.objects.get_or_create(user=request.user)
+
+    if request.method == "POST":
+        form_user = EditProfileForm(request.POST, instance=request.user)
+        form_extra = EditProfileExtraForm(request.POST, instance=profile)
+        if form_user.is_valid() and form_extra.is_valid():
+            form_user.save()
+            form_extra.save()
+            messages.success(request, "Perfil atualizado com sucesso.")
+            return redirect("perfil")
+    else:
+        form_user = EditProfileForm(instance=request.user)
+        form_extra = EditProfileExtraForm(instance=profile)
+
+    return render(request, "treino/editar_perfil.html", {
+        "form_user": form_user,
+        "form_extra": form_extra,
+    })
 
 
 @login_required

@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block title %}Editar perfil - MoveFit{% endblock %}
+
+{% block content %}
+  <h2>Editar perfil</h2>
+
+  <form method="post">
+    {% csrf_token %}
+
+    <h3>Dados de acesso</h3>
+    {{ form_user.as_p }}
+
+    <h3>Dados do perfil</h3>
+    {{ form_extra.as_p }}
+
+    <button type="submit">Salvar alterações</button>
+  </form>
+
+  <p>
+    <a href="{% url 'perfil' %}">Voltar para o meu perfil</a>
+  </p>
+{% endblock %}

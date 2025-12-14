@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block title %}Meu perfil - MoveFit{% endblock %}
+
+{% block content %}
+  <h2>Meu perfil</h2>
+
+  <p><strong>Usuário:</strong> {{ user.username }}</p>
+  <p><strong>Email:</strong> {{ user.email|default:"(não informado)" }}</p>
+
+  <p><strong>Nome completo:</strong> {{ user.profile.nome_completo|default:"(não informado)" }}</p>
+  <p><strong>Idade:</strong> {{ user.profile.idade|default:"(não informada)" }}</p>
+  <p><strong>Peso:</strong> {{ user.profile.peso_kg|default:"(não informado)" }}</p>
+  <p><strong>Altura:</strong> {{ user.profile.altura_cm|default:"(não informada)" }}</p>
+
+  <p>
+    <a class="btn-primary" href="{% url 'editar_perfil' %}">Editar perfil</a>
+    <a class="btn-primary" href="{% url 'password_change' %}">Alterar senha</a>
+    <a class="btn-primary" href="{% url 'fichas_list' %}">Ir para minhas fichas</a>
+  </p>
+{% endblock %}
