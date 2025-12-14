@@ -53,6 +53,19 @@
 
 <h1>Minhas fichas de treino</h1>
 
+{% if user.is_authenticated %}
+  <p>
+    Usuário: {{ user.username }}
+    |
+    <form method="post" action="{% url 'logout' %}" style="display:inline;">
+      {% csrf_token %}
+      <button type="submit" style="background:none;border:none;color:blue;cursor:pointer;padding:0;">
+        Sair
+      </button>
+    </form>
+  </p>
+{% endif %}
+
 <p>
     <a href="{% url 'criar_ficha' %}">+ Criar nova ficha</a>
 </p>
