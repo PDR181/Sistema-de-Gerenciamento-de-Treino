@@ -8,4 +8,6 @@ urlpatterns = [
     path('itens/<int:item_id>/editar/', views.editar_item_ficha, name='editar_item_ficha'),
     path('itens/<int:item_id>/excluir/', views.excluir_item_ficha, name='excluir_item_ficha'),
     path('fichas/<int:ficha_id>/', views.ficha_detalhe, name='ficha_detalhe'),
+
+    path('signup/', views.signup_view, name='signup'),  # nova rota de cadastro [web:407][web:422]
 ]

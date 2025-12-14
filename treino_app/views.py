@@ -1,7 +1,20 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import login
 from .models import FichaTreino, ItemFicha
-from .forms import FichaTreinoForm, ItemFichaForm
+from .forms import FichaTreinoForm, ItemFichaForm, SignUpForm
+
+def signup_view(request):
+    if request.method == "POST":
+        form = SignUpForm(request.POST)
+        if form.is_valid():
+            user = form.save()  # cria o usuário já com senha criptografada [web:408][web:411]
+            login(request, user)  # faz login automático após o cadastro [web:97]
+            return redirect("fichas_list")  # ajuste para o nome da sua url inicial
+    else:
+        form = SignUpForm()
+
+    return render(request, "treino/signup.html", {"form": form})
 
 
 @login_required
