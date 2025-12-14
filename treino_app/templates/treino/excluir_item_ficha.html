@@ -1,18 +1,17 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <title>Excluir exercício da ficha</title>
-</head>
-<body>
-  <h1>Excluir exercício da ficha: {{ ficha.nome }}</h1>
+{% extends "base.html" %}
 
-  <p>Tem certeza que deseja excluir o exercício "{{ item.exercicio.nome }}" desta ficha?</p>
+{% block title %}Excluir exercício da ficha - MoveFit{% endblock %}
 
-  <form method="post">
-    {% csrf_token %}
-    <button type="submit">Sim, excluir</button>
-    <a href="{% url 'fichas_list' %}">Cancelar</a>
-  </form>
-</body>
-</html>
+{% block content %}
+
+<h2>Excluir exercício da ficha: {{ ficha.nome }}</h2>
+
+<p>Tem certeza que deseja excluir o exercício "{{ item.exercicio.nome }}" desta ficha?</p>
+
+<form method="post">
+  {% csrf_token %}
+  <button type="submit">Sim, excluir</button>
+  <a href="{% url 'fichas_list' %}">Cancelar</a>
+</form>
+
+{% endblock %}

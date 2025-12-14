@@ -1,20 +1,19 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <title>Editar exercício da ficha</title>
-</head>
-<body>
-  <h1>Editar exercício da ficha: {{ ficha.nome }}</h1>
+{% extends "base.html" %}
 
-  <form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Salvar alterações</button>
-  </form>
+{% block title %}Editar exercício da ficha - MoveFit{% endblock %}
 
-  <p>
-    <a href="{% url 'fichas_list' %}">Voltar para minhas fichas</a>
-  </p>
-</body>
-</html>
+{% block content %}
+
+<h2>Editar exercício da ficha: {{ ficha.nome }}</h2>
+
+<form method="post">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit">Salvar alterações</button>
+</form>
+
+<p>
+  <a href="{% url 'fichas_list' %}">Voltar para minhas fichas</a>
+</p>
+
+{% endblock %}
