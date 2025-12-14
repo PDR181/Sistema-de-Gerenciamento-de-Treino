@@ -36,7 +36,8 @@ def criar_ficha(request):
             ficha = form.save(commit=False)
             ficha.usuario = request.user
             ficha.save()
-            return redirect('fichas_list')
+            # depois de criar, pode ir direto para os detalhes da ficha nova
+            return redirect('ficha_detalhe', ficha_id=ficha.id)
     else:
         form = FichaTreinoForm()
     return render(request, 'treino/criar_ficha.html', {'form': form})
@@ -52,8 +53,8 @@ def adicionar_item_ficha(request, ficha_id):
             item = form.save(commit=False)
             item.ficha = ficha
             item.save()
-            # depois podemos trocar para redirect('ficha_detalhe', ficha_id=ficha.id)
-            return redirect('fichas_list')
+            # volta para os detalhes da ficha
+            return redirect('ficha_detalhe', ficha_id=ficha.id)
     else:
         form = ItemFichaForm()
 
@@ -76,8 +77,8 @@ def editar_item_ficha(request, item_id):
         form = ItemFichaForm(request.POST, instance=item)
         if form.is_valid():
             form.save()
-            # idem: pode redirecionar para os detalhes da ficha
-            return redirect('fichas_list')
+            # volta para os detalhes da ficha do item editado
+            return redirect('ficha_detalhe', ficha_id=ficha.id)
     else:
         form = ItemFichaForm(instance=item)
 
@@ -95,11 +96,12 @@ def excluir_item_ficha(request, item_id):
         id=item_id,
         ficha__usuario=request.user
     )
+    ficha_id = item.ficha.id
+
     if request.method == 'POST':
-        ficha_id = item.ficha.id
         item.delete()
-        # pode usar redirect('ficha_detalhe', ficha_id=ficha_id) depois
-        return redirect('fichas_list')
+        # volta para os detalhes da ficha de onde o item foi excluído
+        return redirect('ficha_detalhe', ficha_id=ficha_id)
 
     return render(request, 'treino/excluir_item_ficha.html', {
         'item': item,
