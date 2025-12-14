@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block title %}Início - MoveFit{% endblock %}
+
+{% block content %}
+  <h2>Bem-vindo ao MoveFit</h2>
+
+  {% if user.is_authenticated %}
+    <p>Você já está logado como {{ user.username }}.</p>
+    <p>
+      <a href="{% url 'fichas_list' %}">Ir para minhas fichas</a>
+    </p>
+  {% else %}
+    <p>
+      <a href="{% url 'login' %}">Entrar</a> |
+      <a href="{% url 'signup' %}">Cadastrar-se</a>
+    </p>
+    <p>
+      <a href="{% url 'fichas_list' %}">Ver fichas (irá pedir login)</a>
+    </p>
+  {% endif %}
+{% endblock %}
