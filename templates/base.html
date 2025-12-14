@@ -10,7 +10,7 @@
 
 <header>
     <h1>MoveFit</h1>
-    {% if user.is_authenticated %}
+    {% if user.is_authenticated and request.resolver_match.url_name != 'login' %}
       <p>
         Usuário: {{ user.username }}
         |
@@ -24,6 +24,17 @@
     {% endif %}
     <hr>
 </header>
+
+{% if messages %}
+  <ul class="messages">
+    {% for message in messages %}
+      <li class="message message-{{ message.tags }}">
+        {{ message }}
+      </li>
+    {% endfor %}
+  </ul>
+{% endif %}
+
 
 <main>
     {% block content %}{% endblock %}

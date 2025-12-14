@@ -3,12 +3,13 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, get_user_model
 from .models import FichaTreino, ItemFicha
 from .forms import FichaTreinoForm, ItemFichaForm, SignUpForm
+from django.contrib import messages
 
 
 def home(request):
     return render(request, "treino/home.html")
 
-    
+
 def signup_view(request):
     if request.method == "POST":
         form = SignUpForm(request.POST)
@@ -54,7 +55,7 @@ def criar_ficha(request):
             ficha = form.save(commit=False)
             ficha.usuario = request.user
             ficha.save()
-            # depois de criar, pode ir direto para os detalhes da ficha nova
+            messages.success(request, "Ficha criada com sucesso.")
             return redirect('ficha_detalhe', ficha_id=ficha.id)
     else:
         form = FichaTreinoForm()
@@ -71,7 +72,7 @@ def adicionar_item_ficha(request, ficha_id):
             item = form.save(commit=False)
             item.ficha = ficha
             item.save()
-            # volta para os detalhes da ficha
+            messages.success(request, "Exercício adicionado na ficha.")
             return redirect('ficha_detalhe', ficha_id=ficha.id)
     else:
         form = ItemFichaForm()
@@ -95,7 +96,7 @@ def editar_item_ficha(request, item_id):
         form = ItemFichaForm(request.POST, instance=item)
         if form.is_valid():
             form.save()
-            # volta para os detalhes da ficha do item editado
+            messages.success(request, "Exercício atualizado.")
             return redirect('ficha_detalhe', ficha_id=ficha.id)
     else:
         form = ItemFichaForm(instance=item)
@@ -118,7 +119,7 @@ def excluir_item_ficha(request, item_id):
 
     if request.method == 'POST':
         item.delete()
-        # volta para os detalhes da ficha de onde o item foi excluído
+        messages.success(request, "Exercício removido da ficha.")
         return redirect('ficha_detalhe', ficha_id=ficha_id)
 
     return render(request, 'treino/excluir_item_ficha.html', {

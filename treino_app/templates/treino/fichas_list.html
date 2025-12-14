@@ -3,71 +3,92 @@
 {% block title %}Minhas fichas - MoveFit{% endblock %}
 
 {% block content %}
-
-<h2>Minhas fichas de treino</h2>
-
-<p>
-    <a href="{% url 'criar_ficha' %}">+ Criar nova ficha</a>
-</p>
-
-{% for ficha in fichas %}
-  <h3>
-    <a href="{% url 'ficha_detalhe' ficha_id=ficha.id %}">
-      {{ ficha.nome }}
-    </a>
-  </h3>
-
-  <p>
-    <a href="{% url 'adicionar_item_ficha' ficha.id %}">
-      + Adicionar exercício nesta ficha
-    </a>
-  </p>
-
-  <ul>
-    {% for item in ficha.itens.all %}
-      <li>
-        {% if item.exercicio.gif_url %}
-          <a href="#"
-             onclick="openGifModal('{{ item.exercicio.gif_url }}', '{{ item.exercicio.nome }}'); return false;">
-            {{ item.exercicio.nome }}
-          </a>
-        {% else %}
-          {{ item.exercicio.nome }}
-        {% endif %}
-        - {{ item.series }} x {{ item.repeticoes }} reps - {{ item.peso }} kg
-        <a href="{% url 'editar_item_ficha' item.id %}">Editar</a>
-        <a href="{% url 'excluir_item_ficha' item.id %}">Excluir</a>
-      </li>
-    {% endfor %}
-  </ul>
-{% empty %}
-  <p>Nenhuma ficha cadastrada.</p>
-{% endfor %}
-
-<!-- Modal do GIF -->
-<div id="gif-modal" class="gif-modal">
-  <div class="gif-modal-content">
-    <span class="gif-modal-close" onclick="closeGifModal()">&times;</span>
-    <h3 id="gif-title"></h3>
-    <img id="gif-image" src="" alt="GIF do exercício" style="max-width: 100%; height: auto;">
-  </div>
+  <div class="page-header">
+  <h2>Minhas fichas de treino</h2>
+  <a class="btn-primary" href="{% url 'criar_ficha' %}">+ Criar nova ficha</a>
 </div>
 
-<script>
-function openGifModal(url, nome) {
-    const modal = document.getElementById('gif-modal');
-    const img = document.getElementById('gif-image');
-    const title = document.getElementById('gif-title');
+  {% for ficha in fichas %}
+    <div class="ficha-card">
+      <div class="ficha-card-header">
+        <h3>
+          <a href="{% url 'ficha_detalhe' ficha_id=ficha.id %}">{{ ficha.nome }}</a>
+        </h3>
+        <a class="btn-link" href="{% url 'adicionar_item_ficha' ficha.id %}">
+  + Adicionar exercício
+</a>
+      </div>
 
-    img.src = url;
-    title.textContent = nome;
-    modal.style.display = 'flex';
-}
+      <hr class="ficha-divider">
 
-function closeGifModal() {
-    const modal = document.getElementById('gif-modal');
-    modal.style.display = 'none';
-}
-</script>
+      {% if ficha.itens.all %}
+        <ul class="ficha-itens">
+          {% for item in ficha.itens.all %}
+            <li class="ficha-item">
+  <div class="ficha-item-content">
+    <div class="ficha-item-main">
+      {% if item.exercicio.gif_url %}
+        <a href="#"
+           onclick="openGifModal('{{ item.exercicio.gif_url }}', '{{ item.exercicio.nome }}'); return false;">
+          {{ item.exercicio.nome }}
+        </a>
+      {% else %}
+        {{ item.exercicio.nome }}
+      {% endif %}
+    </div>
+    <div class="ficha-item-meta">
+      <span class="badge">{{ item.series }} séries</span>
+      <span class="badge">{{ item.repeticoes }} reps</span>
+      <span class="badge">{{ item.peso }} kg</span>
+    </div>
+  </div>
 
+  <div class="ficha-item-actions">
+    <a class="btn-xs" href="{% url 'editar_item_ficha' item.id %}">Editar</a>
+    <a class="btn-xs btn-danger" href="{% url 'excluir_item_ficha' item.id %}">Excluir</a>
+  </div>
+</li>
+
+          {% endfor %}
+        </ul>
+      {% else %}
+  <p class="empty-text">
+    Nenhum exercício nesta ficha ainda.
+    <a class="btn-link" href="{% url 'adicionar_item_ficha' ficha.id %}">Adicionar exercício</a>
+  </p>
+{% endif %}
+
+    </div>
+  {% empty %}
+  <p class="empty-text">
+    Nenhuma ficha cadastrada.
+    <a class="btn-link" href="{% url 'criar_ficha' %}">Criar primeira ficha</a>
+  </p>
+{% endfor %}
+
+  <!-- Modal do GIF -->
+  <div id="gif-modal" class="gif-modal">
+    <div class="gif-modal-content">
+      <span class="gif-modal-close" onclick="closeGifModal()">&times;</span>
+      <h3 id="gif-title"></h3>
+      <img id="gif-image" src="" alt="GIF do exercício" style="max-width: 100%; height: auto;">
+    </div>
+  </div>
+
+  <script>
+    function openGifModal(url, nome) {
+        const modal = document.getElementById('gif-modal');
+        const img = document.getElementById('gif-image');
+        const title = document.getElementById('gif-title');
+
+        img.src = url;
+        title.textContent = nome;
+        modal.style.display = 'flex';
+    }
+
+    function closeGifModal() {
+        const modal = document.getElementById('gif-modal');
+        modal.style.display = 'none';
+    }
+  </script>
 {% endblock %}
