@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block title %}Excluir ficha - MoveFit{% endblock %}
+
+{% block content %}
+  <h2>Excluir ficha</h2>
+  <p>Tem certeza que deseja excluir a ficha "{{ ficha.nome }}"?</p>
+
+  <form method="post">
+    {% csrf_token %}
+    <button type="submit">Sim, excluir</button>
+    <a href="{% url 'ficha_detalhe' ficha_id=ficha.id %}">Cancelar</a>
+  </form>
+{% endblock %}

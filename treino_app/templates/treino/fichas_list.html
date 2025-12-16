@@ -4,9 +4,9 @@
 
 {% block content %}
   <div class="page-header">
-  <h2>Minhas fichas de treino</h2>
-  <a class="btn-primary" href="{% url 'criar_ficha' %}">+ Criar nova ficha</a>
-</div>
+    <h2>Minhas fichas de treino</h2>
+    <a class="btn-primary" href="{% url 'criar_ficha' %}">+ Criar nova ficha</a>
+  </div>
 
   {% for ficha in fichas %}
     <div class="ficha-card">
@@ -14,9 +14,16 @@
         <h3>
           <a href="{% url 'ficha_detalhe' ficha_id=ficha.id %}">{{ ficha.nome }}</a>
         </h3>
-        <a class="btn-link" href="{% url 'adicionar_item_ficha' ficha.id %}">
-  + Adicionar exercício
-</a>
+
+        <div class="ficha-card-header-actions">
+          <a class="btn-link" href="{% url 'adicionar_item_ficha' ficha.id %}">
+            + Adicionar exercício
+          </a>
+          |
+          <a class="btn-link btn-danger" href="{% url 'excluir_ficha' ficha_id=ficha.id %}">
+            Excluir ficha
+          </a>
+        </div>
       </div>
 
       <hr class="ficha-divider">
@@ -25,46 +32,44 @@
         <ul class="ficha-itens">
           {% for item in ficha.itens.all %}
             <li class="ficha-item">
-  <div class="ficha-item-content">
-    <div class="ficha-item-main">
-      {% if item.exercicio.gif_url %}
-        <a href="#"
-           onclick="openGifModal('{{ item.exercicio.gif_url }}', '{{ item.exercicio.nome }}'); return false;">
-          {{ item.exercicio.nome }}
-        </a>
-      {% else %}
-        {{ item.exercicio.nome }}
-      {% endif %}
-    </div>
-    <div class="ficha-item-meta">
-      <span class="badge">{{ item.series }} séries</span>
-      <span class="badge">{{ item.repeticoes }} reps</span>
-      <span class="badge">{{ item.peso }} kg</span>
-    </div>
-  </div>
+              <div class="ficha-item-content">
+                <div class="ficha-item-main">
+                  {% if item.exercicio.gif_url %}
+                    <a href="#"
+                       onclick="openGifModal('{{ item.exercicio.gif_url }}', '{{ item.exercicio.nome }}'); return false;">
+                      {{ item.exercicio.nome }}
+                    </a>
+                  {% else %}
+                    {{ item.exercicio.nome }}
+                  {% endif %}
+                </div>
+                <div class="ficha-item-meta">
+                  <span class="badge">{{ item.series }} séries</span>
+                  <span class="badge">{{ item.repeticoes }} reps</span>
+                  <span class="badge">{{ item.peso }} kg</span>
+                </div>
+              </div>
 
-  <div class="ficha-item-actions">
-    <a class="btn-xs" href="{% url 'editar_item_ficha' item.id %}">Editar</a>
-    <a class="btn-xs btn-danger" href="{% url 'excluir_item_ficha' item.id %}">Excluir</a>
-  </div>
-</li>
-
+              <div class="ficha-item-actions">
+                <a class="btn-xs" href="{% url 'editar_item_ficha' item.id %}">Editar</a>
+                <a class="btn-xs btn-danger" href="{% url 'excluir_item_ficha' item.id %}">Excluir</a>
+              </div>
+            </li>
           {% endfor %}
         </ul>
       {% else %}
-  <p class="empty-text">
-    Nenhum exercício nesta ficha ainda.
-    <a class="btn-link" href="{% url 'adicionar_item_ficha' ficha.id %}">Adicionar exercício</a>
-  </p>
-{% endif %}
-
+        <p class="empty-text">
+          Nenhum exercício nesta ficha ainda.
+          <a class="btn-link" href="{% url 'adicionar_item_ficha' ficha.id %}">Adicionar exercício</a>
+        </p>
+      {% endif %}
     </div>
   {% empty %}
-  <p class="empty-text">
-    Nenhuma ficha cadastrada.
-    <a class="btn-link" href="{% url 'criar_ficha' %}">Criar primeira ficha</a>
-  </p>
-{% endfor %}
+    <p class="empty-text">
+      Nenhuma ficha cadastrada.
+      <a class="btn-link" href="{% url 'criar_ficha' %}">Criar primeira ficha</a>
+    </p>
+  {% endfor %}
 
   <!-- Modal do GIF -->
   <div id="gif-modal" class="gif-modal">

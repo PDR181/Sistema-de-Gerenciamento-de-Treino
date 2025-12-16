@@ -81,6 +81,24 @@ def ficha_detalhe(request, ficha_id):
 
 
 @login_required
+def excluir_ficha(request, ficha_id):
+    ficha = get_object_or_404(
+        FichaTreino,
+        id=ficha_id,
+        usuario=request.user
+    )
+
+    if request.method == 'POST':
+        ficha.delete()
+        messages.success(request, "Ficha excluída com sucesso.")
+        return redirect('fichas_list')
+
+    return render(request, 'treino/excluir_ficha.html', {
+        'ficha': ficha,
+    })
+
+    
+@login_required
 def criar_ficha(request):
     if request.method == 'POST':
         form = FichaTreinoForm(request.POST)

@@ -5,6 +5,8 @@ body {
     padding: 0;
 }
 
+/* ===== MODAL GIF ===== */
+
 .gif-modal {
     display: none;
     position: fixed;
@@ -36,24 +38,72 @@ body {
     cursor: pointer;
 }
 
+/* ===== HEADER / TOPO ===== */
+
 header {
     background-color: #111827;
     color: #f9fafb;
-    padding: 12px 24px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    padding: 0; /* quem define o padding é .site-header */
 }
 
-header h1 {
+.site-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 24px;
+}
+
+.site-header .logo h1 {
     margin: 0;
     font-size: 22px;
 }
 
-header p {
-    margin: 0;
-    font-size: 14px;
+.site-header .user-nav {
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
+
+.user-name {
+    font-size: 0.9rem;
+}
+
+/* Botões Perfil / Sair no header */
+.btn-header {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 6px 12px;
+    border-radius: 4px;
+    border: 1px solid #1e88e5;
+    background-color: #1e88e5;
+    color: #fff;
+    text-decoration: none;
+    font-size: 0.9rem;
+    cursor: pointer;
+    line-height: 1;
+}
+
+.btn-header:hover {
+    background-color: #1565c0;
+    border-color: #1565c0;
+}
+
+.logout-form {
+    margin: 0;
+}
+
+.btn-logout {
+    border-color: #e53935;
+    background-color: #e53935;
+}
+
+.btn-logout:hover {
+    background-color: #c62828;
+    border-color: #c62828;
+}
+
+/* ===== CONTEÚDO PRINCIPAL ===== */
 
 main {
     max-width: 900px;
@@ -134,6 +184,8 @@ li {
     font-size: 12px;
 }
 
+/* ===== FICHAS ===== */
+
 .page-header {
     display: flex;
     justify-content: space-between;
@@ -142,11 +194,13 @@ li {
 }
 
 .btn-primary {
+    display: inline-block;
     background-color: #2563eb;
     color: #ffffff;
     padding: 6px 12px;
     border-radius: 4px;
     font-size: 14px;
+    font-weight: 500;
 }
 
 .btn-primary:hover {
@@ -197,7 +251,6 @@ li {
     align-items: flex-end;
 }
 
-
 .ficha-item-actions a {
     font-size: 13px;
 }
@@ -216,21 +269,6 @@ li {
     border: none;
     border-top: 1px solid #e5e7eb;
     margin: 8px 0 12px 0;
-}
-
-.btn-primary {
-    display: inline-block;
-    background-color: #2563eb;
-    color: #ffffff;
-    padding: 6px 12px;
-    border-radius: 4px;
-    font-size: 14px;
-    font-weight: 500;
-}
-
-.btn-primary:hover {
-    background-color: #1d4ed8;
-    text-decoration: none;
 }
 
 .btn-link {
@@ -287,6 +325,8 @@ li {
 .ficha-card:nth-child(even) {
     background-color: #f3f4f6;
 }
+
+/* ===== MENSAGENS ===== */
 
 .messages {
     list-style: none;

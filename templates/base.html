@@ -8,25 +8,26 @@
 </head>
 <body>
 
-<header>
+<header class="site-header">
+  <div class="logo">
     <h1>MoveFit</h1>
-    {% if user.is_authenticated and request.resolver_match.url_name != 'login' %}
-  <p>
-    Usuário: {{ user.username }}
-    |
-    <a href="{% url 'perfil' %}">Perfil</a>
-    |
-    <form method="post" action="{% url 'logout' %}" style="display:inline;">
-      {% csrf_token %}
-      <button type="submit" style="background:none;border:none;color:blue;cursor:pointer;padding:0;">
-        Sair
-      </button>
-    </form>
-  </p>
-{% endif %}
+  </div>
 
-    <hr>
+  {% if user.is_authenticated and request.resolver_match.url_name != 'login' %}
+    <nav class="user-nav">
+      <span class="user-name">Olá, {{ user.username }}</span>
+      <a href="{% url 'perfil' %}" class="btn-header">Perfil</a>
+      <form method="post" action="{% url 'logout' %}" class="logout-form">
+        {% csrf_token %}
+        <button type="submit" class="btn-header btn-logout">
+          Sair
+        </button>
+      </form>
+    </nav>
+  {% endif %}
 </header>
+<hr>
+
 
 {% if messages %}
   <ul class="messages">
@@ -37,7 +38,6 @@
     {% endfor %}
   </ul>
 {% endif %}
-
 
 <main>
     {% block content %}{% endblock %}
