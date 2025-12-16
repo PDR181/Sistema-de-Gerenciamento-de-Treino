@@ -29,13 +29,13 @@ No Windows (CMD):
 python -m venv env
 env\Scripts\activate
 
-text
+
 
 ### 3. Instalar dependências
 
 pip install -r requirements.txt
 
-text
+
 
 (se ainda não tiver o `requirements.txt`, você pode gerar com `pip freeze > requirements.txt`.)
 
@@ -43,25 +43,25 @@ text
 
 python manage.py migrate
 
-text
+
 
 ### 5. Criar um superusuário (opcional, para acessar o admin)
 
 python manage.py createsuperuser
 
-text
+
 
 ### 6. Rodar o servidor
 
 python manage.py runserver
 
-text
+
 
 Acesse no navegador:
 
 http://127.0.0.1:8000/
 
-text
+
 
 ---
 
@@ -111,7 +111,7 @@ static/
 treino_app/
 style.css
 
-text
+
 
 ---
 
